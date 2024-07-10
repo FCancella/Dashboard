@@ -23,6 +23,7 @@ main_graph = utils.df_treatment(main_graph)
 
 # Initialize the app
 app = Dash()
+server = app.server
 
 app.layout = html.Div([
     html.Div([ # Dividends Agenda
