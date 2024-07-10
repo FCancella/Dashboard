@@ -10,7 +10,6 @@ from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 import pandas as pd
 import plotly.express as px
 
-
 dividends_agenda.get_dividens_agenda()
 div_agenda = pd.read_csv('dividends_agenda.csv')
 
@@ -21,7 +20,6 @@ followed_stocks = {}
 generic_data.get_generic_data()
 main_graph = pd.read_csv('generic_data.csv')
 main_graph = utils.df_treatment(main_graph)
-
 
 # Initialize the app
 app = Dash()
@@ -48,7 +46,8 @@ app.layout = html.Div([
                 ],
                 value='mercados',
                 id='news-section',
-                inline=True
+                inline=True,
+                className='radio-items'
             ),
             html.Div(id='news-content')
         ], className='content')
@@ -60,7 +59,8 @@ app.layout = html.Div([
             dcc.Dropdown(
                 options=list(recommended_portfolios.keys()),
                 value=list(recommended_portfolios.keys())[0],
-                id='recommendation-owner'
+                id='recommendation-owner',
+                className='dropdown'
             ),
             dcc.Graph(id='recommendation-graph')
         ], className='content')
@@ -69,7 +69,7 @@ app.layout = html.Div([
     html.Div([ # Fundamentus data
         html.Div('Fundamentus Data', className='purpose'),
         html.Div([
-            dcc.Input(id='stock-ticker', type='text', placeholder='Enter a stock ticker...'),
+            dcc.Input(id='stock-ticker', type='text', placeholder='Enter a stock ticker...', className='input'),
             html.Div(id='stock-fundamentus-data')
         ], className='content')
     ], className='div-section fundamentus-data'),
@@ -77,8 +77,8 @@ app.layout = html.Div([
     html.Div([ # Followed Stocks
         html.Div('Followed Stocks', className='purpose'),
         html.Div([
-            dcc.Input(id='followed-stock', type='text', placeholder='Enter a stock ticker...'),
-            html.Button('Follow', id='follow-button'),
+            dcc.Input(id='followed-stock', type='text', placeholder='Enter a stock ticker...', className='input'),
+            html.Button('Follow', id='follow-button', className='button'),
             html.Div(id='followed-stocks-list', className='content')
         ], className='content')
     ], className='div-section followed-stocks'),
@@ -90,10 +90,11 @@ app.layout = html.Div([
                 options=[{'label': col, 'value': col} for col in main_graph.columns],
                 value=main_graph.columns.tolist(),
                 id='main-graph-checklist',
-                inline=True
+                inline=True,
+                className='checklist'
             ),
-            dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...'),
-            html.Button('+', id='add-button'),
+            dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...', className='input'),
+            html.Button('+', id='add-button', className='button'),
             dcc.Graph(id='main-graph')
         ], className='content')
     ], className='div-section main-graph')
@@ -123,7 +124,6 @@ def update_news(news_section):
         ])
     ]
 
-
 @callback(
     Output('recommendation-graph', 'figure'),
     Input('recommendation-owner', 'value')
@@ -134,7 +134,6 @@ def update_recommended_portfolios(selected_owner):
     fig.update_traces(textposition='outside', textinfo='label+percent')
     fig.update_layout(showlegend=False)  # Hide the legend
     return fig
-
 
 @callback(
     Output('stock-fundamentus-data', 'children'),
@@ -198,7 +197,11 @@ def update_main_graph(selected_columns, n_clicks, add_ticker):
         stock_data_df, main_graph = stock_data.add_stock_data(add_ticker, main_graph)
     options = [{'label': col, 'value': col} for col in main_graph.columns]
     fig = px.line(main_graph, y=selected_columns, title='Percentage Change Over Time')
-    fig.update_layout(showlegend=False)  # Hide the legend
+    fig.update_layout(
+        showlegend=False,
+        autosize=True,
+        margin=dict(l=20, r=20, t=30, b=20)  # Reduce margins to use more space
+    )
     return fig, options, selected_columns
 
 if __name__ == '__main__':
