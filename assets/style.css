@@ -32,11 +32,12 @@
 
 .dividends-agenda {
     grid-area: agenda;
+    height: 60vh;
 }
 
 .news-dashboard {
     grid-area: news-dashboard;
-    max-height: 50vh; /* Adjust based on your needs */
+    max-height: 38vh; /* Adjust based on your needs */
 }
 
 .recommended-portfolios {
@@ -46,13 +47,14 @@
 
 .fundamentus-data {
     grid-area: fundamentus-data;
-    height: 50vh; /* Adjust based on your needs */
+    max-height: 38vh; /* Adjust based on your needs */
+
 }
 
 .followed-stocks {
     grid-area: following;
     height: auto;
-    max-height: 50vh; /* Adjust based on your needs */
+    max-height: 38vh; /* Adjust based on your needs */
     overflow-y: auto;
     border: 1px solid #ccc;
 }
