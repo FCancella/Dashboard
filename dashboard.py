@@ -14,8 +14,6 @@ import plotly.express as px
 dividends_agenda.get_dividens_agenda()
 div_agenda = pd.read_csv('dividends_agenda.csv')
 
-#news_list = ...
-
 recommended_portfolios = recommended_portfolio.load_recommended_portfolios()
 
 followed_stocks = {}
@@ -23,77 +21,91 @@ followed_stocks = {}
 generic_data.get_generic_data()
 main_graph = pd.read_csv('generic_data.csv')
 main_graph = utils.df_treatment(main_graph)
-# main_graph['Date'] = pd.to_datetime(main_graph['Date'])
-# main_graph.set_index('Date', inplace=True)
-
-# # Normalize the data for comparison
-# main_graph = main_graph.div(main_graph.iloc[0]).multiply(100).reset_index()
-# main_graph.set_index('Date', inplace=True)
 
 
 # Initialize the app
 app = Dash()
 
-app.layout = [
+app.layout = html.Div([
     html.Div([ # Dividends Agenda
-    html.H2('Dividends Agenda'),
-    dash_table.DataTable(
-        data=div_agenda.to_dict('records'),
-        columns=[{'name': col, 'id': col} for col in div_agenda.columns]
-        )
-    ]),
+        html.Div('Dividends Agenda', className='purpose'),
+        html.Div(dash_table.DataTable(
+            data=div_agenda.to_dict('records'),
+            columns=[{'name': col, 'id': col} for col in div_agenda.columns]
+        ), className='content')
+    ], className='div-section dividends-agenda'),
 
-    html.Div([ #News Dashboard
-        html.H2('News Dashboard'),
-        dcc.RadioItems(
-            options=[
-                {'label': 'Mercados', 'value': 'mercados'},
-                #{'label': 'Recentes', 'value': 'recentes'},
-                {'label': 'Global', 'value': 'global'},
-                {'label': 'Investimentos', 'value': 'investimentos'},
-                {'label': 'Política', 'value': 'politica'},
-                {'label': 'Economia', 'value': 'economia'}
-            ],
-            value='mercados',
-            id='news-section',
-            inline=True),
-        html.Div(id='news-content'),
-    ]),
+    html.Div([ # News Dashboard
+        html.Div('News Dashboard', className='purpose'),
+        html.Div([
+            dcc.RadioItems(
+                options=[
+                    {'label': 'Mercados', 'value': 'mercados'},
+                    {'label': 'Global', 'value': 'global'},
+                    {'label': 'Investimentos', 'value': 'investimentos'},
+                    {'label': 'Política', 'value': 'politica'},
+                    {'label': 'Economia', 'value': 'economia'}
+                ],
+                value='mercados',
+                id='news-section',
+                inline=True
+            ),
+            html.Div(id='news-content')
+        ], className='content')
+    ], className='div-section news-dashboard'),
 
     html.Div([ # Recommended Portfolios
-        dcc.Dropdown(
+        html.Div('Recommended Portfolios', className='purpose'),
+        html.Div([
+            dcc.Dropdown(
                 options=list(recommended_portfolios.keys()),
-                value = list(recommended_portfolios.keys())[0],
-                id='recommendation-owner'),
-        dcc.Graph(id='recommendation-graph')
-    ]),
+                value=list(recommended_portfolios.keys())[0],
+                id='recommendation-owner'
+            ),
+            dcc.Graph(id='recommendation-graph')
+        ], className='content')
+    ], className='div-section recommended-portfolios'),
 
     html.Div([ # Fundamentus data
-        dcc.Input(id='stock-ticker', type='text', placeholder='Enter a stock ticker...'),
-        html.Div(id='stock-fundamentus-data')
-    ]),
+        html.Div('Fundamentus Data', className='purpose'),
+        html.Div([
+            dcc.Input(id='stock-ticker', type='text', placeholder='Enter a stock ticker...'),
+            html.Div(id='stock-fundamentus-data')
+        ], className='content')
+    ], className='div-section fundamentus-data'),
 
     html.Div([ # Followed Stocks
-        dcc.Input(id='followed-stock', type='text', placeholder='Enter a stock ticker...'),
-        html.Button('Follow', id='follow-button'),
-        html.Div(id='followed-stocks-list')
-    ]),
+        html.Div('Followed Stocks', className='purpose'),
+        html.Div([
+            dcc.Input(id='followed-stock', type='text', placeholder='Enter a stock ticker...'),
+            html.Button('Follow', id='follow-button'),
+            html.Div(id='followed-stocks-list', className='content')
+        ], className='content')
+    ], className='div-section followed-stocks'),
 
     html.Div([ # Main Graph
-        html.H2('Main Graph'),
-        dcc.Checklist(
-            options=[{'label': col, 'value': col} for col in main_graph.columns],
-            value=main_graph.columns.tolist(),
-            id='main-graph-checklist',
-            inline=True
-        ),
-        dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...'),
-        html.Button('+', id='add-button'),
-        dcc.Graph(id='main-graph')
-    ])
-]
+        html.Div('Main Graph', className='purpose'),
+        html.Div([
+            dcc.Checklist(
+                options=[{'label': col, 'value': col} for col in main_graph.columns],
+                value=main_graph.columns.tolist(),
+                id='main-graph-checklist',
+                inline=True
+            ),
+            dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...'),
+            html.Button('+', id='add-button'),
+            dcc.Graph(id='main-graph')
+        ], className='content')
+    ], className='div-section main-graph')
+], className='container')
 
+app.css.append_css({
+    'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'
+})
 
+app.css.append_css({
+    'external_url': '/assets/style.css'
+})
 
 @callback(
     Output('news-content', 'children'),
@@ -118,7 +130,9 @@ def update_news(news_section):
 )
 def update_recommended_portfolios(selected_owner):
     df = recommended_portfolios[selected_owner]
-    fig = px.pie(df, names='Stock', values='Weight', hole = .5)
+    fig = px.pie(df, names='Stock', values='Weight', hole=.7)
+    fig.update_traces(textposition='outside', textinfo='label+percent')
+    fig.update_layout(showlegend=False)  # Hide the legend
     return fig
 
 
@@ -153,15 +167,19 @@ def follow_stock(n_clicks, stock_ticker):
     return [
         html.Div([
             html.Div([
-                html.H3(f'{stock_ticker}'),
-                html.Button('X'),
-                html.P(f'1d: {followed_stocks[stock_ticker]["1d"]}'),
-                html.P(f'7d: {followed_stocks[stock_ticker]["7d"]}'),
-                html.P(f'1m: {followed_stocks[stock_ticker]["1m"]}'),
-                html.P(f'3m: {followed_stocks[stock_ticker]["3m"]}'),
-                html.P(f'1y: {followed_stocks[stock_ticker]["1y"]}'),
-                html.P(f'YTD: {followed_stocks[stock_ticker]["ytd"]}')
-            ]) for stock_ticker in followed_stocks
+                html.Div([
+                    html.H3(f'{stock_ticker}', style={'margin': '0', 'font-size': '1rem'}),
+                    html.Button('X', style={'margin-left': '10px', 'font-size': '0.8rem', 'padding': '0 5px'})
+                ], className='followed-stock-header'),
+                html.Div([
+                    html.P(f'1d: {followed_stocks[stock_ticker]["1d"]}', style={'margin': '2'}),
+                    html.P(f'7d: {followed_stocks[stock_ticker]["7d"]}', style={'margin': '2'}),
+                    html.P(f'1m: {followed_stocks[stock_ticker]["1m"]}', style={'margin': '2'}),
+                    html.P(f'3m: {followed_stocks[stock_ticker]["3m"]}', style={'margin': '2'}),
+                    html.P(f'1y: {followed_stocks[stock_ticker]["1y"]}', style={'margin': '2'}),
+                    html.P(f'YTD: {followed_stocks[stock_ticker]["ytd"]}', style={'margin': '2'})
+                ], className='followed-stock-returns')
+            ], className='followed-stock-item') for stock_ticker in followed_stocks
         ])
     ]
 
@@ -175,22 +193,13 @@ def follow_stock(n_clicks, stock_ticker):
 )
 def update_main_graph(selected_columns, n_clicks, add_ticker):
     global main_graph
-    #TODO: Check callback trigger
     if add_ticker and n_clicks and len(add_ticker) >= 5 and add_ticker.upper() not in main_graph.columns:
         add_ticker = add_ticker.upper()
         stock_data_df, main_graph = stock_data.add_stock_data(add_ticker, main_graph)
-        # stock_data_df = stock_data.get_stock_data(add_ticker)
-        # stock_data_df = trata_main_graph(stock_data_df)
-        #     #main_graph = main_graph.join(stock_data_df, how='left', rsuffix=f'_{add_ticker}')
-        # main_graph = pd.merge(main_graph, stock_data_df, left_index=True, right_index=True)
-        # main_graph = main_graph.ffill().bfill()
-        # main_graph.rename(columns={'Close': add_ticker}, inplace=True)
-        # print(main_graph)
-        
     options = [{'label': col, 'value': col} for col in main_graph.columns]
     fig = px.line(main_graph, y=selected_columns, title='Percentage Change Over Time')
+    fig.update_layout(showlegend=False)  # Hide the legend
     return fig, options, selected_columns
 
-# Run the app
 if __name__ == '__main__':
     app.run(debug=True)
