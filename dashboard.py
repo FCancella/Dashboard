@@ -29,8 +29,19 @@ app.layout = html.Div([
         html.Div('Dividends Agenda', className='purpose'),
         html.Div(dash_table.DataTable(
             data=div_agenda.to_dict('records'),
-            columns=[{'name': col, 'id': col} for col in div_agenda.columns]
-        ), className='content')
+            columns=[{'name': col, 'id': col} for col in div_agenda.columns],
+            style_header={
+                'backgroundColor': 'var(--secondary-color)', 
+                'color': 'white',
+                'fontFamily': 'Bahnschrift',
+                'fontWeight': 'bold'
+            },
+            style_cell={
+                'backgroundColor': 'var(--primary-color)', 
+                'color': 'white',
+                'fontFamily': 'Bahnschrift'
+            }
+        ), className='content data-table')
     ], className='div-section dividends-agenda'),
 
     html.Div([ # News Dashboard
@@ -132,7 +143,13 @@ def update_recommended_portfolios(selected_owner):
     df = recommended_portfolios[selected_owner]
     fig = px.pie(df, names='Stock', values='Weight', hole=.7)
     fig.update_traces(textposition='outside', textinfo='label+percent')
-    fig.update_layout(showlegend=False)  # Hide the legend
+    fig.update_layout(
+        showlegend=False,
+        autosize=True,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white', family='Bahnschrift'),
+        )
     return fig
 
 @callback(
@@ -200,7 +217,10 @@ def update_main_graph(selected_columns, n_clicks, add_ticker):
     fig.update_layout(
         showlegend=False,
         autosize=True,
-        margin=dict(l=20, r=20, t=30, b=20)  # Reduce margins to use more space
+        margin=dict(l=20, r=20, t=30, b=20),  # Reduce margins to use more space
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='white', family='Bahnschrift')
     )
     return fig, options, selected_columns
 

@@ -1,3 +1,41 @@
+:root {
+    --background-color: #000018;
+    --text-color: #e0e0e0;
+    --primary-color: #040917;
+    --secondary-color: #051c36;
+    --highlight-color: #1d2ae5;
+    --border-color: #4e4e50;
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Bahnschrift, sans-serif;
+}
+
+.Select-control {
+    background-color: var(--background-color) !important;
+    color:var(--text-color);
+}
+.Select-menu-outer {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.Select-value-label {
+    color: var(--text-color)  !important;
+}
+/* dropdown menu options */
+.VirtualizedSelectOption {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+/* dropdown menu hover effect */
+.VirtualizedSelectFocusedOption {
+    background-color: var(--background-color);
+    opacity: .7;
+}
+
 
 .container {
     display: grid;
@@ -5,30 +43,29 @@
         "main-graph recommended-portfolios agenda"
         "main-graph recommended-portfolios agenda"
         "news-dashboard following fundamentus-data";
-    grid-template-columns: 2fr 1fr 1fr; /* Adjust the columns to increase main graph width and reduce agenda width */
+    grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 1fr auto 1fr;
     grid-gap: 10px;
     height: 98vh;
-    font-family: Bahnschrift, sans-serif;
 }
 
 .div-section {
     display: flex;
     flex-direction: column;
-    /* border: 1px solid #ccc; */
     border-radius: 8px;
-    background-color: #fff;
+    background-color: var(--primary-color);
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
 .div-section .purpose {
     padding: 6px;
-    border-bottom: 1px solid #ccc;
-    background-color: #f9f9f9;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--secondary-color);
     font-weight: bold;
     text-align: center;
     font-size: 1.2em;
+    color: var(--text-color);
 }
 
 .div-section .content {
@@ -37,7 +74,6 @@
     padding: 4px;
 }
 
-/* Specific classes for each block */
 .dividends-agenda {
     grid-area: agenda;
     height: 60vh;
@@ -72,7 +108,7 @@
 .followed-stock-item {
     margin-bottom: 5px;
     padding: 5px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .followed-stock-header {
@@ -98,35 +134,40 @@
     display: flex;
     justify-content: center;
     margin: 10px 0;
+    color: var(--text-color);
 }
 
 .dropdown {
     margin-bottom: 10px;
     width: 100%;
     max-width: 300px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .input {
     margin-bottom: 10px;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     width: 12vh;
     max-width: 300px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .button {
     margin: 5px 0;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--highlight-color);
+    color: var(--text-color);
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: darken(var(--highlight-color), 10%);
 }
 
 .checklist {
@@ -134,4 +175,5 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
+    color: var(--text-color);
 }
