@@ -2,11 +2,11 @@
     display: grid;
     grid-template-areas: 
         "main-graph recommended-portfolios agenda"
-        "main-graph recommended-portfolios news-dashboard"
+        "main-graph recommended-portfolios agenda"
         "fundamentus-data following news-dashboard";
     grid-template-rows: 1fr auto 1fr;
     grid-gap: 10px;
-    height: 100vh;
+    height: 98vh;
     overflow: hidden;
 }
 
@@ -14,7 +14,6 @@
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
-    height: 100%;
     overflow: hidden;
 }
 
@@ -30,6 +29,7 @@
     padding: 10px;
 }
 
+/* Specific classes for each block */
 .dividends-agenda {
     grid-area: agenda;
     height: 60vh;
@@ -37,31 +37,33 @@
 
 .news-dashboard {
     grid-area: news-dashboard;
-    max-height: 38vh; /* Adjust based on your needs */
+    max-height: 38vh;
 }
 
 .recommended-portfolios {
     grid-area: recommended-portfolios;
-    height: 60vh; /* Adjusted height to make it higher */
+    height: 60vh;
 }
 
 .fundamentus-data {
     grid-area: fundamentus-data;
-    max-height: 38vh; /* Adjust based on your needs */
-
+    max-height: 38vh;
 }
 
 .followed-stocks {
     grid-area: following;
-    height: auto;
-    max-height: 38vh; /* Adjust based on your needs */
+    max-height: 38vh;
     overflow-y: auto;
-    border: 1px solid #ccc;
+}
+
+.main-graph {
+    grid-area: main-graph;
+    height: 60vh;
 }
 
 .followed-stock-item {
-    margin-bottom: 5px; /* Reduced margin */
-    padding: 5px; /* Reduced padding */
+    margin-bottom: 5px;
+    padding: 5px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -69,8 +71,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0; /* No padding to reduce height */
-    margin: 0; /* No margin to reduce height */
+    padding: 0;
+    margin: 0;
 }
 
 .followed-stock-returns {
@@ -81,10 +83,5 @@
 
 .followed-stock-returns p {
     margin-right: 10px;
-    margin-bottom: 0; /* Reduced margin */
-}
-
-.main-graph {
-    grid-area: main-graph;
-    max-height: 100vh; /* Adjust based on your needs */
+    margin-bottom: 0;
 }
