@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from io import StringIO
 
-DATA_FILE = 'financial-dashboard/recommended_portfolios.json'
+DATA_FILE = 'src/financial-dashboard/recommended_portfolios.json'
 DATE_FORMAT = '%Y-%m-%d'
 
 def most_recent_recommended_portfolio_url():

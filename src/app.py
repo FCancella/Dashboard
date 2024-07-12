@@ -11,14 +11,14 @@ import pandas as pd
 import plotly.express as px
 
 dividends_agenda.get_dividens_agenda()
-div_agenda = pd.read_csv('financial-dashboard\dividends_agenda.csv')
+div_agenda = pd.read_csv('src/financial-dashboard/dividends_agenda.csv')
 
 recommended_portfolios = recommended_portfolio.load_recommended_portfolios()
 
 followed_stocks = {}
 
 generic_data.get_generic_data()
-main_graph = pd.read_csv('financial-dashboard\generic_data.csv')
+main_graph = pd.read_csv('src/financial-dashboard/generic_data.csv')
 main_graph = utils.df_treatment(main_graph)
 
 # Initialize the app
