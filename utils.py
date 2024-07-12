@@ -17,6 +17,7 @@ def df_treatment(df):
     """
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index('Date', inplace=True)
-    df = df.div(df.iloc[0]).subtract(1).multiply(100).reset_index()
+    df = df/df.iloc[0,:]
+    df.reset_index(inplace=True)
     df.set_index('Date', inplace=True)
     return df
