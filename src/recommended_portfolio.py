@@ -1,12 +1,13 @@
-import os
 import json
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from io import StringIO
+import os
+base_path = os.path.dirname(__file__)
 
-DATA_FILE = 'src/recommended_portfolios.json'
+DATA_FILE = os.path.join(base_path, 'recommended_portfolios.json')
 DATE_FORMAT = '%Y-%m-%d'
 
 def most_recent_recommended_portfolio_url():

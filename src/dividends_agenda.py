@@ -1,9 +1,12 @@
 import pandas as pd
 from datetime import datetime
+import os
+base_path = os.path.dirname(__file__)
 
 def get_dividens_agenda():
     print('Getting dividends agenda...')
-    df = pd.read_csv('src/dividends_agenda.csv')
+    file_path = os.path.join(base_path, 'dividends_agenda.csv')
+    df = pd.read_csv(file_path)
 
     earliest_date = pd.to_datetime(df['Payment']).min()
     today = pd.to_datetime(datetime.today().strftime('%Y-%m-%d'))
