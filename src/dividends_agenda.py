@@ -3,7 +3,7 @@ from datetime import datetime
 
 def get_dividens_agenda():
     print('Getting dividends agenda...')
-    df = pd.read_csv('src/financial-dashboard/dividends_agenda.csv')
+    df = pd.read_csv('src/dividends_agenda.csv')
 
     earliest_date = pd.to_datetime(df['Payment']).min()
     today = pd.to_datetime(datetime.today().strftime('%Y-%m-%d'))
