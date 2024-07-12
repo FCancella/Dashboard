@@ -22,7 +22,7 @@ main_graph = pd.read_csv('generic_data.csv')
 main_graph = utils.df_treatment(main_graph)
 
 # Initialize the app
-app = Dash()
+app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div([
