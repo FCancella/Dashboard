@@ -226,4 +226,7 @@ def update_main_graph(selected_columns, n_clicks, add_ticker):
     return fig, options, selected_columns
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run_server(debug=True)
+    with open("dashboard.html", "w") as f:
+        f.write(app.index_string)
