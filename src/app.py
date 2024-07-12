@@ -135,7 +135,8 @@ def update_news(news_section):
             html.Div([
                 html.A(news['title'], href=news['link'], target='_blank'),
                 html.Br(),
-                html.Small(news['time'])
+                html.Small(news['time']),
+                html.Hr()
             ]) for news in news_list
         ])
     ]

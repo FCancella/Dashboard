@@ -16,7 +16,7 @@ body {
 
 .Select-control {
     background-color: var(--background-color) !important;
-    color:var(--text-color);
+    color: var(--text-color);
 }
 .Select-menu-outer {
     background-color: var(--background-color);
@@ -35,7 +35,6 @@ body {
     background-color: var(--background-color);
     opacity: .7;
 }
-
 
 .container {
     display: grid;
@@ -177,3 +176,46 @@ body {
     margin-bottom: 10px;
     color: var(--text-color);
 }
+
+/* Mobile support */
+@media (max-width: 768px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    .div-section {
+        margin-bottom: 10px;
+    }
+    .main-graph {
+        order: 1;
+        height: auto;
+        max-height: none;
+    }
+    .recommended-portfolios {
+        order: 2;
+        height: auto;
+        max-height: none;
+    }
+    .news-dashboard {
+        order: 3;
+        height: auto;
+        max-height: none;
+    }
+    .dividends-agenda {
+        order: 4;
+        height: auto;
+        max-height: none;
+    }
+    .fundamentus-data {
+        order: 5;
+        height: auto;
+        max-height: none;
+    }
+    .followed-stocks {
+        order: 6;
+        height: auto;
+        max-height: none;
+    }
+}
+
