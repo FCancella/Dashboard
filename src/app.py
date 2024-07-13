@@ -46,7 +46,8 @@ app.layout = html.Div([
                 'color': 'white',
                 'fontFamily': 'Bahnschrift'
             }
-        ), className='content data-table')
+        ), className='content data-table'),
+        html.Div('Powered by Your Company', className='powered-by')
     ], className='div-section dividends-agenda'),
 
     html.Div([ # News Dashboard
@@ -66,7 +67,8 @@ app.layout = html.Div([
                 className='radio-items'
             ),
             html.Div(id='news-content')
-        ], className='content')
+        ], className='content'),
+        html.Div('Powered by InfoMoney', className='powered-by')
     ], className='div-section news-dashboard'),
 
     html.Div([ # Recommended Portfolios
@@ -79,7 +81,8 @@ app.layout = html.Div([
                 className='dropdown'
             ),
             dcc.Graph(id='recommendation-graph')
-        ], className='content')
+        ], className='content'),
+        html.Div('Powered by ADVFN', className='powered-by')
     ], className='div-section recommended-portfolios'),
 
     html.Div([ # Fundamentus data
@@ -87,7 +90,8 @@ app.layout = html.Div([
         html.Div([
             dcc.Input(id='stock-ticker', type='text', placeholder='Enter a stock ticker...', className='input'),
             html.Div(id='stock-fundamentus-data')
-        ], className='content')
+        ], className='content'),
+        html.Div('Powered by Fundamentus', className='powered-by')
     ], className='div-section fundamentus-data'),
 
     html.Div([ # Followed Stocks
@@ -96,7 +100,8 @@ app.layout = html.Div([
             dcc.Input(id='followed-stock', type='text', placeholder='Enter a stock ticker...', className='input'),
             html.Button('Follow', id='follow-button', className='button'),
             html.Div(id='followed-stocks-list', className='content')
-        ], className='content')
+        ], className='content'),
+        html.Div('Powered by YFinance', className='powered-by')
     ], className='div-section followed-stocks'),
 
     html.Div([ # Main Graph
@@ -112,7 +117,8 @@ app.layout = html.Div([
             dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...', className='input'),
             html.Button('+', id='add-button', className='button'),
             dcc.Graph(id='main-graph')
-        ], className='content')
+        ], className='content'),
+        html.Div('Powered by YFinance', className='powered-by')
     ], className='div-section main-graph')
 ], className='container')
 
