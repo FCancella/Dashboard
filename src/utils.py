@@ -1,6 +1,6 @@
 import pandas as pd
 
-def df_treatment(df):
+def df_treatment(untreated_df):
     """
     Treats the DataFrame by performing the following operations:
     
@@ -15,9 +15,21 @@ def df_treatment(df):
     Returns:
     pd.DataFrame: The treated DataFrame with the 'Date' column as the index and normalized values.
     """
-    df['Date'] = pd.to_datetime(df['Date'])
+    df = untreated_df.copy()  # Avoid SettingWithCopyWarning by working on a copy of the DataFrame
+
+    df = df.iloc[::2]
+    try:
+        df['Date'] = pd.to_datetime(df['Date'])
+    except :
+        df.reset_index(inplace=True)
+        df['Date'] = pd.to_datetime(df['Date'])
+
     df.set_index('Date', inplace=True)
-    df = df/df.iloc[0,:]
-    df.reset_index(inplace=True)
-    df.set_index('Date', inplace=True)
+    df = df/df.iloc[0,:] # Normalize the data
     return df
+
+def treat_to_plot(df, data_ini_slide=None, data_fim_slide=None):
+    if data_ini_slide is not None:
+        df = df.loc[data_ini_slide:data_fim_slide]
+    treated_df = df_treatment(df)
+    return treated_df

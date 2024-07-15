@@ -22,8 +22,11 @@ followed_stocks = {}
 
 generic_data.get_generic_data()
 file_path = os.path.join(base_path, 'generic_data.csv')
-main_graph = pd.read_csv(file_path)
-main_graph = utils.df_treatment(main_graph)
+main_graph = pd.read_csv(file_path).set_index('Date')
+plot_main_graph = utils.treat_to_plot(main_graph)
+
+main_dates = main_graph.index.tolist()
+main_graph.columns = main_graph.columns
 
 # Initialize the app
 app = Dash(__name__)
@@ -116,7 +119,9 @@ app.layout = html.Div([
             ),
             dcc.Input(id='add-ticker', type='text', placeholder='Enter a stock ticker...', className='input'),
             html.Button('+', id='add-button', className='button'),
-            dcc.Graph(id='main-graph')
+            dcc.Graph(id='main-graph'),
+            html.Div(id='selected-dates', className='selected-dates'),
+            dcc.RangeSlider(0, len(main_dates)-1, marks=None, value=[0, len(main_dates)-1], id='date-range-slider', updatemode='drag')
         ], className='content'),
         html.Div('Powered by YFinance', className='powered-by')
     ], className='div-section main-graph')
@@ -215,17 +220,27 @@ def follow_stock(n_clicks, stock_ticker):
     Output('main-graph', 'figure'),
     Output('main-graph-checklist', 'options'), # Update checklist
     Output('main-graph-checklist', 'value'), # Update checklist
+    Output('selected-dates', 'children'),
     Input('main-graph-checklist', 'value'),
     Input('add-button', 'n_clicks'),
+    Input('date-range-slider', 'value'),
     State('add-ticker', 'value')
 )
-def update_main_graph(selected_columns, n_clicks, add_ticker):
+def update_main_graph(selected_columns, n_clicks, selected_range, add_ticker):
     global main_graph
     if add_ticker and n_clicks and len(add_ticker) >= 5 and add_ticker.upper() not in main_graph.columns:
         add_ticker = add_ticker.upper()
         stock_data_df, main_graph = stock_data.add_stock_data(add_ticker, main_graph)
     options = [{'label': col, 'value': col} for col in main_graph.columns]
-    fig = px.line(main_graph, y=selected_columns, title='Percentage Change Over Time')
+
+    if selected_range is None:
+        selected_range = [0, len(main_dates)-1]
+
+    start_date = main_dates[selected_range[0]]
+    end_date = main_dates[selected_range[1]]
+    plot_main_graph = utils.treat_to_plot(main_graph, start_date, end_date)
+
+    fig = px.line(plot_main_graph, y=selected_columns, title='Percentage Change Over Time')
     fig.update_layout(
         showlegend=False,
         autosize=True,
@@ -234,7 +249,9 @@ def update_main_graph(selected_columns, n_clicks, add_ticker):
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='white', family='Bahnschrift')
     )
-    return fig, options, selected_columns
+
+    selected_dates_text = f'Selected dates: {str(start_date).split()[0]} to {str(end_date).split()[0]}'
+    return fig, options, selected_columns, selected_dates_text
 
 if __name__ == '__main__':
     app.run(debug=True)
