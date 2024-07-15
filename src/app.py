@@ -120,7 +120,7 @@ app.layout = html.Div([
             html.Button('+', id='add-button', className='button'),
             dcc.Graph(id='main-graph'),
             html.Div(id='selected-dates', className='selected-dates'),
-            dcc.RangeSlider(0, len(main_dates)-1, marks=None, value=[0, len(main_dates)-1], id='date-range-slider', updatemode='drag')
+            dcc.RangeSlider(0, len(main_dates)-1, marks=None, value=[0, len(main_dates)-1], id='date-range-slider')
         ], className='content'),
         html.Div('Powered by YFinance', className='powered-by')
     ], className='div-section main-graph')
