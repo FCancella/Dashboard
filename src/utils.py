@@ -17,7 +17,6 @@ def df_treatment(untreated_df):
     """
     df = untreated_df.copy()  # Avoid SettingWithCopyWarning by working on a copy of the DataFrame
 
-    df = df.iloc[::2]
     try:
         df['Date'] = pd.to_datetime(df['Date'])
     except :
@@ -32,4 +31,5 @@ def treat_to_plot(df, data_ini_slide=None, data_fim_slide=None):
     if data_ini_slide is not None:
         df = df.loc[data_ini_slide:data_fim_slide]
     treated_df = df_treatment(df)
+    treated_df = treated_df.iloc[::2] # Optimizing the number of points to plot
     return treated_df

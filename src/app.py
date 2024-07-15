@@ -26,7 +26,6 @@ main_graph = pd.read_csv(file_path).set_index('Date')
 plot_main_graph = utils.treat_to_plot(main_graph)
 
 main_dates = main_graph.index.tolist()
-main_graph.columns = main_graph.columns
 
 # Initialize the app
 app = Dash(__name__)
