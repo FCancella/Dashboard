@@ -24,6 +24,7 @@ def cdi_data():
     return df_cdi
 
 def get_generic_data(): #ibov, ifix, btc, cdi
+    print('Downloading data...')
     tickers = ['BTC-USD', 'IVVB11.SA', 'SMAL11.SA', 'XFIX11.SA', '^BVSP'] # yfinance download in alphabetical order!
     df = yf.download(tickers, period='5y')['Close']
 
@@ -39,5 +40,5 @@ def get_generic_data(): #ibov, ifix, btc, cdi
     df.rename(columns={'index': 'Date'}, inplace=True)
 
     df.to_csv('generic_data.csv', index=False)
-
+    print('Data saved to generic_data.csv')
     return df
