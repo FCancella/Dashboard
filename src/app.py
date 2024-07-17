@@ -5,6 +5,7 @@ import recommended_portfolio
 import stock_data
 import stock_fundamentus_data
 import stock_returns_data
+import volatility_calc
 import utils
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 import pandas as pd
@@ -82,6 +83,7 @@ app.layout = html.Div([
                 id='recommendation-owner',
                 className='dropdown'
             ),
+            html.Div(id='portfolio-vol'),
             dcc.Graph(id='recommendation-graph')
         ], className='content'),
         html.Div('Powered by ADVFN', className='powered-by')
@@ -153,6 +155,7 @@ def update_news(news_section):
 
 @callback(
     Output('recommendation-graph', 'figure'),
+    Output('portfolio-vol', 'children'),
     Input('recommendation-owner', 'value')
 )
 def update_recommended_portfolios(selected_owner):
@@ -166,7 +169,7 @@ def update_recommended_portfolios(selected_owner):
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='white', family='Bahnschrift'),
         )
-    return fig
+    return fig, f'Portfolio Volatility: {volatility_calc.get_portfolio_vol(df)*100:.2f}%'
 
 @callback(
     Output('stock-fundamentus-data', 'children'),
