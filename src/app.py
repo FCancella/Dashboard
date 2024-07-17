@@ -169,7 +169,7 @@ def update_recommended_portfolios(selected_owner):
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(color='white', family='Bahnschrift'),
         )
-    return fig, f'Portfolio Volatility: {volatility_calc.get_portfolio_vol(df)*100:.2f}%'
+    return fig, f'Portfolio Volatility: {volatility_calc.get_portfolio_vol(df)*100:.2f} ({volatility_calc.get_portfolio_vol(df, False)*100:.2f})%'
 
 @callback(
     Output('stock-fundamentus-data', 'children'),
