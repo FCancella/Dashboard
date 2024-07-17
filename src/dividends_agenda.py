@@ -13,6 +13,7 @@ def get_dividens_agenda():
 
     days_difference = (today - earliest_date).days
     if days_difference >= 7:
+        print('Updating dividends agenda...')
         df = pd.read_html('https://www.dadosdemercado.com.br/agenda-de-dividendos')[0]
         df = df[['Código', 'Tipo', 'Pagamento']]
         df.columns = ['Code', 'Type', 'Payment']
